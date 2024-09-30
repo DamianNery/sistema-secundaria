@@ -1,0 +1,12 @@
+{
+  "name": "sistema-secundaria",
+  "version": "1.0.0",
+  "description": "2do parcial y final de Programación 3 - 2024",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devstart": "node --watch index.js"
+  },
+  "author": "Damian Nery",
+  "license": "ISC"
+}
