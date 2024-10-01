@@ -1,5 +1,5 @@
 //MODELO
-const arrayDeEstudiantes = require("../data/estudiantes.json"); //Importar array de estudiantes
+const arrayDeEstudiantes = require("../data/estudiantesFake.js"); //Importar array de estudiantes
 
 const getEstudiantes = () => { //Función para obtener todos los estudiantes
     return arrayDeEstudiantes;

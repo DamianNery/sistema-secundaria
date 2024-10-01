@@ -22,7 +22,7 @@ class Server {
     }
 
     cargarRutas() {
-        this.app.use("/api/ingredientes",require('./routes/ingredientes'));
+        this.app.use("/api/estudiantes",require('./routes/estudiantes'));
     }
 
     conectarABD() {
