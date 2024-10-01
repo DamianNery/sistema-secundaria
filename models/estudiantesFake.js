@@ -6,7 +6,7 @@ const getEstudiantes = () => { //Función para obtener todos los estudiantes
 };
 
 const getEstudiante = (id) => { //Función para obtener un estudiante por su id
-    return arrayDeEstudiantes.find((estudiante) => estudiante.id === id);
+    return arrayDeEstudiantes.find((estudiante) => estudiante._id === id);
 };
 
 const postEstudiante = (estudiante) => { //Función para crear un estudiante
@@ -14,12 +14,12 @@ const postEstudiante = (estudiante) => { //Función para crear un estudiante
 };
 
 const updateEstudiante = (id, estudiante) => { //Función para actualizar un estudiante por su id
-    const index = arrayDeEstudiantes.findIndex((estudiante) => estudiante.id === id); //Buscar el indice del estudiante
+    const index = arrayDeEstudiantes.findIndex((estudiante) => estudiante._id === id); //Buscar el indice del estudiante
     arrayDeEstudiantes[index] = estudiante; //Actualizar el estudiante
 };
 
 const deleteEstudiante = (id) => { //Función para eliminar un estudiante por su id
-    const index = arrayDeEstudiantes.findIndex((estudiante) => estudiante.id === id); //Buscar el indice del estudiante
+    const index = arrayDeEstudiantes.findIndex((estudiante) => estudiante._id === id); //Buscar el indice del estudiante
     arrayDeEstudiantes.splice(index, 1); //Eliminar el estudiante
 };
 
