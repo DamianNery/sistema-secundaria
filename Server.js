@@ -1,10 +1,10 @@
 //NOMBRE DEL ARCHIVO EN MAYÚSCULA PORQUE ES UNA CLASE
 const express = require('express'); //Importar express
 //const mongodb = require('mongodb'); //Importar mongodb
-//const mongoose = require('mongoose'); //Importar mongoose
+const mongoose = require('mongoose'); //Importar mongoose
 
 class Server {
-
+    
     constructor() {
         this.port = process.env.PORT; //Puerto de escucha (default 3000)
         this.app = express(); //Instancia de express
