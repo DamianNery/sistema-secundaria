@@ -1,5 +1,7 @@
 //NOMBRE DEL ARCHIVO EN MAYÚSCULA PORQUE ES UNA CLASE
 const express = require('express'); //Importar express
+//const mongodb = require('mongodb'); //Importar mongodb
+//const mongoose = require('mongoose'); //Importar mongoose
 
 class Server {
 
@@ -27,6 +29,29 @@ class Server {
 
     conectarABD() {
         //PENDIENTE
+        //Checkear en clase si es correcto
+        const uri = process.env.MONGODB_URI; //Cargar variable de entorno
+
+        mongoose.connect(uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true
+        });
+
+        mongoose.connection.on("connected", () => {
+            console.log("Conectado a MongoDB");
+        });
+
+        mongoose.connection.on("error", (error) => {
+            console.log(error);
+        });
+
+        mongoose.connection.on("disconnected", () => {
+            console.log("Desconectado de MongoDB");
+        });
+        //Seguir viendo código de recomendación
+        //Checkear en clase si es correcto
+
     }
 }
 
