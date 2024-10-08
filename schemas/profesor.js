@@ -1,6 +1,6 @@
 const mongoose = require("mongoose"); //Importar mongoose
 
-const estudianteSchema = new mongoose.Schema({ //Crear esquema
+const profesorSchema = new mongoose.Schema({ //Crear esquema
     nombre: {
         type: String,
         required: true,
@@ -21,7 +21,6 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
         type: String,
         required: true,
     },
-    // email y password van acá?
     email: {
         type: String,
         required: true,
@@ -30,13 +29,12 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
         type: String,
         required: true,
     },
-    // email y password van acá?
     legajo: {
         type: String,
         required: true,
     },
 });
 
-const Estudiante = mongoose.model("Estudiante", estudianteSchema); //Crear modelo
+const Profesor = mongoose.model("Profesor", profesorSchema); //Crear modelo
 
-module.exports = Estudiante; //Exportar modelo
+module.exports = Profesor; //Exportar modelo
