@@ -1,11 +1,11 @@
 const mongoose = require("mongoose"); //Importar mongoose
 
 const cursoSchema = new mongoose.Schema({ //Crear esquema
-    nombre: {
-        type: String,
+    año: {
+        type: Number,
         required: true,
     },
-    descripcion: {
+    division: {
         type: String,
         required: true,
     },
@@ -13,7 +13,26 @@ const cursoSchema = new mongoose.Schema({ //Crear esquema
         type: String, //o Number?
         required: true,
     },
-});
+    //Relacion entre schemas
+    materias: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Materia",
+        },
+    ],
+    estudiantes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Estudiante",
+        },
+    ],
+},
+/* Rastrear cuándo fue creado "createdAt" o modificado "updatedAt un documento
+{
+    timestamps: true,
+},
+*/
+);
 
 const Curso = mongoose.model("Curso", cursoSchema); //Crear modelo
 

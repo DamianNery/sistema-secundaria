@@ -35,7 +35,19 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
         type: String,
         required: true,
     },
-});
+    //Relacion entre schemas
+    curso:
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Curso",
+        },
+},
+/* Rastrear cuándo fue creado "createdAt" o modificado "updatedAt un documento
+{
+    timestamps: true,
+},
+*/
+);
 
 const Estudiante = mongoose.model("Estudiante", estudianteSchema); //Crear modelo
 

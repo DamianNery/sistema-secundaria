@@ -33,7 +33,20 @@ const profesorSchema = new mongoose.Schema({ //Crear esquema
         type: String,
         required: true,
     },
-});
+    //Relacion entre schemas
+    materias: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Materia",
+        },
+    ],
+},
+/* Rastrear cuándo fue creado "createdAt" o modificado "updatedAt un documento
+{
+    timestamps: true,
+},
+*/
+);
 
 const Profesor = mongoose.model("Profesor", profesorSchema); //Crear modelo
 
