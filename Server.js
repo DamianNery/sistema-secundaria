@@ -20,7 +20,7 @@ class Server {
     }
 
     cargarMiddlewares() {
-        //PENDIENTE
+        this.app.use(express.json()); //Permitir peticiones con formato JSON
     }
 
     cargarRutas() {
