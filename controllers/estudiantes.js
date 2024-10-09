@@ -44,6 +44,9 @@ const deleteEstudiante = (req, res) => {
     const idEntero = parseInt(id);
     estudiantesModel.deleteEstudiante(idEntero); //Eliminar el estudiante
     //Mostrar mensaje de confirmación
+    res.status(200).json({ //200: OK
+        msg: "Estudiante eliminado"
+    });
 };
 
 module.exports = {

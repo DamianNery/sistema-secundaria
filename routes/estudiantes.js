@@ -7,10 +7,14 @@ const { getEstudiantes, getEstudiante,
     postEstudiante, updateEstudiante, deleteEstudiante } = require('../controllers/estudiantes'); //Cargar controladores
 //const {getTodos, getById, deleteById, updateById, add} = require('../controllers/ingredientes');
 
+const {validarJwt, validarRol} = require('../middlewares/validations.js');//Cargar middlewares
+
 router.get('/', getEstudiantes); //Ruta para obtener todos los estudiantes
-router.get('/:id', getEstudiante); //Ruta para obtener un estudiante por su id
+//router.get('/:id', getEstudiante); //Ruta para obtener un estudiante por su id
+router.get('/:id', [validarJwt], getEstudiante); //Ruta para obtener un estudiante por su id
 router.post('/', postEstudiante); //Ruta para crear un estudiante
 router.put('/:id', updateEstudiante); //Ruta para actualizar un estudiante por su id
-router.delete('/:id', deleteEstudiante); //Ruta para eliminar un estudiante por su id
+//router.delete('/:id', deleteEstudiante); //Ruta para eliminar un estudiante por su id
+router.delete('/:id', [validarJwt, validarRol], deleteEstudiante); //Ruta para eliminar un estudiante por su id
 
 module.exports = router;

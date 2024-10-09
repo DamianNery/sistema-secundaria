@@ -53,7 +53,7 @@ const generarJWT = ( user ) => {
             nombre: user?.nombre
         };
         jwt.sign( payload, process.env.SECRETORPRIVATEKEY, { //Firmar el token
-            expiresIn: 10 // 10 segundos para probar que se venza
+            expiresIn: 30 // 30 segundos para probar que se venza
         }, ( err, token ) => {
             if ( err ) { //
                 console.log(err);
