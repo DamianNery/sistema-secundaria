@@ -20,7 +20,7 @@ class Server {
     }
 
     cargarMiddlewares() {
-        this.app.use(express.json()); //Permitir peticiones con formato JSON
+        //this.app.use(express.json()); //Permitir peticiones con formato JSON
     }
 
     cargarRutas() {
@@ -28,7 +28,9 @@ class Server {
     }
 
     conectarABD() {
+        /*
         //PENDIENTE
+        //Buscar link desde repo del profe para ver el paso a paso para conectar BD en la nube (MongoDB + Mongoose)
         //Checkear en clase si es correcto
         const uri = process.env.MONGODB_URI; //Cargar variable de entorno
 
@@ -52,6 +54,7 @@ class Server {
         //Seguir viendo código de recomendación
         //Checkear en clase si es correcto
 
+        */
     }
 }
 
