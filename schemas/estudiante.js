@@ -1,13 +1,16 @@
 const mongoose = require("mongoose"); //Importar mongoose
 
-const estudianteSchema = new mongoose.Schema({ //Crear esquema
+const EstudianteSchema = new mongoose.Schema({ //Crear esquema
+    // Se asume que el Schema tiene un atributo _id autogenerado por MongoDB
     nombre: {
         type: String,
         required: true,
+        trim: true, //Eliminar espacios en blanco al inicio y final de la cadena
     },
     apellido: {
         type: String,
         required: true,
+        trim: true, //Eliminar espacios en blanco al inicio y final de la cadena
     },
     dni: {
         type: String, //o Number?
@@ -42,13 +45,12 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
             ref: "Curso",
         },
 },
-/* Rastrear cuándo fue creado "createdAt" o modificado "updatedAt un documento
-{
-    timestamps: true,
-},
-*/
-);
 
-const Estudiante = mongoose.model("Estudiante", estudianteSchema); //Crear modelo
+{
+    collection: 'estudiantes', // Nombre de la colección especificado
+    timestamps: true // Rastrear cuándo fue creado "createdAt" o modificado "updatedAt un documento
+});
+
+const Estudiante = mongoose.model("Estudiante", EstudianteSchema); //Crear modelo
 
 module.exports = Estudiante; //Exportar modelo
