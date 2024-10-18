@@ -1,5 +1,5 @@
 //CONTROLADOR
-const Estudiante = require('../schemas/Estudiantes.js');
+const Estudiante = require('../schemas/Estudiante.js');
 
 //Obtener todos los estudiantes
 const getEstudiantes = async (req, res) => {

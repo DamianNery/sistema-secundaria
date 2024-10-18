@@ -21,12 +21,12 @@ class Server {
     }
 
     cargarMiddlewares() {
-        //this.app.use(express.json()); //Permitir peticiones con formato JSON
+        this.app.use(express.json()); //Permitir peticiones con formato JSON
     }
 
     cargarRutas() {
         this.app.use("/api/estudiantes",require('./routes/estudiantes'));
-        this.app.use("/api", require('./routes/auth'));
+        //this.app.use("/api", require('./routes/auth'));
     }
 
     async conectarABD() {

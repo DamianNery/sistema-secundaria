@@ -4,10 +4,10 @@ const express = require('express'); //Importar express
 const router = express.Router(); //Instancia de express
 
 const { getEstudiantes, getEstudiante, 
-    postEstudiante, updateEstudiante, deleteEstudiante } = require('../controllers/estudiantes'); //Cargar controladores
+    postEstudiante, updateEstudiante, deleteEstudiante } = require('../controllers/estudiantesFake'); //Cargar controladores
 //const {getTodos, getById, deleteById, updateById, add} = require('../controllers/ingredientes');
 
-const {validarJwt, validarRol} = require('../middlewares/validations.js');//Cargar middlewares
+//const {validarJwt, validarRol} = require('../middlewares/validations.js');//Cargar middlewares
 
 router.get('/', getEstudiantes); //Ruta PUBLICA para obtener todos los estudiantes
 
