@@ -36,20 +36,28 @@ const deleteEstudiante = (req, res) => {
 // Actualizar un estudiante por ID
 const updateEstudiante = (req, res) => {
     //TO DO
-    let { id } = req.body.id;
-    let { estudiante } = req.body;
+    let { id } = req.params;
+    //let { estudiante } = req.body;
+    let { _id, nombre, apellido, dni } = req.body;
     const idEntero = parseInt(id);
-    const estudiantePut = estudiantesModel.updateEstudiante(idEntero, estudiante); //Actualizar el estudiante
-    res.json(estudiantePut);
+    //const estudiantePut = estudiantesModel.updateEstudiante(idEntero, estudiante); //Actualizar el estudiante
+    const estudiantePut = estudiantesModel.updateEstudiante(idEntero, {_id, nombre, apellido, dni}); //Actualizar el estudiante
+    //res.json(estudiantePut);
+    // Responder con el estudiante actualizado
+    res.status(201).json(estudiantePut);
     //Mostrar mensaje de confirmación
 };
 
 // Agregar un nuevo estudiante
 const postEstudiante = (req, res) => {
     //TO DO
-    let { estudiante } = req.body; //Obtener el estudiante desde el cuerpo de la petición POST (ej: formulario)
-    const estudiantePost = estudiantesModel.postEstudiante(estudiante); //Crear el estudiante
-    res.json(estudiantePost);
+    //let { estudiante } = req.body; //Obtener el estudiante desde el cuerpo de la petición POST (ej: formulario)
+    let { _id, nombre, apellido, dni } = req.body;
+    //const estudiantePost = estudiantesModel.postEstudiante(estudiante); //Crear el estudiante
+    const estudiantePost = estudiantesModel.postEstudiante({_id, nombre, apellido, dni}); //Crear el estudiante
+    //res.json(estudiantePost);
+    // Responder con el estudiante creado
+    res.status(201).json(estudiantePost);
     //Mostrar mensaje de confirmación
 };
 
