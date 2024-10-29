@@ -3,6 +3,7 @@ const express = require('express'); //Importar express
 //const mongodb = require('mongodb'); //Importar mongodb
 const mongoose = require('mongoose'); //Importar mongoose
 
+const estudiantesRoutes = require('./routes/estudiantes');
 class Server {
     
     constructor() {
@@ -20,40 +21,34 @@ class Server {
     }
 
     cargarMiddlewares() {
-        //this.app.use(express.json()); //Permitir peticiones con formato JSON
+        this.app.use(express.json()); //Permitir peticiones con formato JSON
     }
 
     cargarRutas() {
         this.app.use("/api/estudiantes",require('./routes/estudiantes'));
+        //this.app.use("/api", require('./routes/auth'));
     }
 
-    conectarABD() {
+    async conectarABD() {
         /*
-        //PENDIENTE
-        //Buscar link desde repo del profe para ver el paso a paso para conectar BD en la nube (MongoDB + Mongoose)
-        //Checkear en clase si es correcto
+        // Link de interes: https://www.mongodb.com/developer/languages/javascript/getting-started-with-mongodb-and-mongoose/
+
+        // Las credenciales de acceso deberían estar en el .env para no exponerlas en el codigo fuente
+
+        const user = process.env.MONGODB_USER; //Cargar variable de entorno
+        const pass = process.env.MONGODB_PASS; //Cargar variable de entorno
+        
+        //const uri = `mongodb+srv://${user}:${pass}@micluster.umg5e.mongodb.net/recetorium?retryWrites=true&w=majority&appName=miCluster`;
         const uri = process.env.MONGODB_URI; //Cargar variable de entorno
 
-        mongoose.connect(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true
-        });
-
-        mongoose.connection.on("connected", () => {
-            console.log("Conectado a MongoDB");
-        });
-
-        mongoose.connection.on("error", (error) => {
-            console.log(error);
-        });
-
-        mongoose.connection.on("disconnected", () => {
-            console.log("Desconectado de MongoDB");
-        });
-        //Seguir viendo código de recomendación
-        //Checkear en clase si es correcto
-
+        try {
+            // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+            await mongoose.connect(uri);
+            console.log("Conectado a BD en la nube");
+        }
+        catch (e) {
+            console.log("Error al conectar a BD en la nube");
+        }
         */
     }
 }
