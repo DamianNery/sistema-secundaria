@@ -1,3 +1,4 @@
+//En express-rest-server models/Ingrediente.js
 const mongoose = require("mongoose"); //Importar mongoose
 
 const estudianteSchema = new mongoose.Schema({ //Crear esquema
@@ -10,7 +11,7 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
         required: true,
     },
     dni: {
-        type: String, //o Number?
+        type: Number, //o String?
         required: true,
     },
     fechaNacimiento: {
@@ -18,10 +19,9 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
         required: true,
     },
     telefono: {
-        type: String,
+        type: Number,
         required: true,
     },
-    // email y password van acá?
     email: {
         type: String,
         required: true,
@@ -30,9 +30,8 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
         type: String,
         required: true,
     },
-    // email y password van acá?
     legajo: {
-        type: String,
+        type: Number,
         required: true,
     },
     //Relacion entre schemas
@@ -41,13 +40,10 @@ const estudianteSchema = new mongoose.Schema({ //Crear esquema
             type: mongoose.Schema.Types.ObjectId,
             ref: "Curso",
         },
-},
-/* Rastrear cuándo fue creado "createdAt" o modificado "updatedAt un documento
-{
-    timestamps: true,
-},
-*/
-);
+},{
+    collection: 'estudiantes', // Nombre de la colección especificado,
+    timestamps: true // Añade campos de createdAt (Cuando fue creado) y updatedAt (Cuando fue modificado)
+});
 
 const Estudiante = mongoose.model("Estudiante", estudianteSchema); //Crear modelo
 
