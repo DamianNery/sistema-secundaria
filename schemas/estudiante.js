@@ -17,6 +17,7 @@ const EstudianteSchema = new mongoose.Schema({ //Crear esquema
         type: Number, //o String?
         required: true,
     },
+    /*
     fechaNacimiento: {
         type: Date,
         required: true,
@@ -37,12 +38,14 @@ const EstudianteSchema = new mongoose.Schema({ //Crear esquema
         type: Number,
         required: true,
     },
+    
     //Relacion entre schemas
     curso:
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Curso",
         },
+*/    
 },{
     collection: 'estudiantes', // Nombre de la colección especificado
     timestamps: true // Añade campos de createdAt (Cuando fue creado) y updatedAt (Cuando fue modificado)

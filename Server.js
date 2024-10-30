@@ -30,7 +30,7 @@ class Server {
     }
 
     async conectarABD() {
-        /*
+        
         // Link de interes: https://www.mongodb.com/developer/languages/javascript/getting-started-with-mongodb-and-mongoose/
 
         // Las credenciales de acceso deberían estar en el .env para no exponerlas en el codigo fuente
@@ -49,7 +49,7 @@ class Server {
         catch (e) {
             console.log("Error al conectar a BD en la nube");
         }
-        */
+        
     }
 }
 

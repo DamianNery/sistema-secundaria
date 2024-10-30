@@ -33,9 +33,9 @@ const getEstudiante = async (req, res) => {
 
 // Agregar un nuevo estudiante
 const postEstudiante = async (req, res) => {
-    const { nombre, foto, color } = req.body;
+    const { nombre, apellido, dni } = req.body;
     try {
-        const nuevoEstudiante = new Estudiante({ nombre, foto, color });
+        const nuevoEstudiante = new Estudiante({ nombre, apellido, dni });
         await nuevoEstudiante.save();
         res.status(201).json(nuevoEstudiante); //(201): Created
     } catch (error) {
@@ -47,11 +47,11 @@ const postEstudiante = async (req, res) => {
 
 const updateEstudiante = async (req, res) => {
     const { id } = req.params;
-    const { nombre, foto, color } = req.body;
+    const { nombre, apellido, dni } = req.body;
     try {
         const estudianteActualizado = await Estudiante.findByIdAndUpdate(
             id,
-            { nombre, foto, color },
+            { nombre, apellido, dni },
             { new: true, runValidators: true } // `new: true` devuelve el documento actualizado
         );
         if (estudianteActualizado) {
