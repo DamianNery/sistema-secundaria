@@ -47,11 +47,11 @@ const postEstudiante = async (req, res) => {
 
 const updateEstudiante = async (req, res) => {
     const { id } = req.params;
-    const { nombre, apellido, dni } = req.body;
+    const { nombre, apellido, dni, } = req.body;
     try {
         const estudianteActualizado = await Estudiante.findByIdAndUpdate(
             id,
-            { nombre, apellido, dni },
+            { nombre, apellido, dni, },
             { new: true, runValidators: true } // `new: true` devuelve el documento actualizado
         );
         if (estudianteActualizado) {
