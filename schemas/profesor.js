@@ -1,7 +1,7 @@
 //En express-rest-server models/Ingrediente.js
 const mongoose = require("mongoose"); //Importar mongoose
 
-const profesorSchema = new mongoose.Schema({ //Crear esquema
+const ProfesorSchema = new mongoose.Schema({ //Crear esquema
     nombre: {
         type: String,
         required: true,
@@ -14,6 +14,7 @@ const profesorSchema = new mongoose.Schema({ //Crear esquema
         type: Number, //o String?
         required: true,
     },
+    /*
     fechaNacimiento: {
         type: Date,
         required: true,
@@ -34,6 +35,7 @@ const profesorSchema = new mongoose.Schema({ //Crear esquema
         type: Number,
         required: true,
     },
+    */
     //Relacion entre schemas
     materias: [
         {
@@ -46,6 +48,6 @@ const profesorSchema = new mongoose.Schema({ //Crear esquema
     timestamps: true // Añade campos de createdAt (Cuando fue creado) y updatedAt (Cuando fue modificado)
 });
 
-const Profesor = mongoose.model("Profesor", profesorSchema); //Crear modelo
+const Profesor = mongoose.model("Profesor", ProfesorSchema); //Crear modelo
 
 module.exports = Profesor; //Exportar modelo

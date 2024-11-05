@@ -4,7 +4,7 @@ const express = require('express'); //Importar express
 const router = express.Router(); //Instancia de express
 
 const { getProfesores, getProfesor, 
-    postProfesor, updateProfesor, deleteProfesor } = require('../controllers/Profesores'); //Cargar controladores
+    postProfesor, updateProfesor, deleteProfesor } = require('../controllers/profesores'); //Cargar controladores
 //const {getTodos, getById, deleteById, updateById, add} = require('../controllers/ingredientes');
 
 router.get('/', getProfesores); //Ruta para obtener todos los Profesores
