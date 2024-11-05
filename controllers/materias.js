@@ -1,5 +1,6 @@
 //CONTROLADOR
-const Materia = require('../schemas/materia.js');
+const Materia = require('../schemas/Materia.js');
+const Profesor = require('../schemas/Profesor.js');
 
 //Obtener todos las materias
 const getMaterias = async (req, res) => {
@@ -87,25 +88,42 @@ const deleteMateria = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al eliminar la materia', error }); //(500): Internal Server Error
     }
 };
-/*
-// Obtener estudiantes de un curso específico
-const getEstudiantesEnCurso = async (req, res) => {
-    const { id } = req.params;
+
+// Asignar un profesor a una materia
+const assignProfesorToMateria = async (req, res) => {
+    const { id } = req.params; // ID de la materia
+    const { profesorId } = req.body; // ID del profesor a asignar
+
     try {
-        const curso = await Curso.findById(id).populate('estudiantes'); // Cargar datos de estudiantes
-        if (!curso) {
-            return res.status(404).json({ mensaje: 'Curso no encontrado' });
+        // Verificar que el profesor existe
+        const profesor = await Profesor.findById(profesorId);
+        if (!profesor) {
+            return res.status(404).json({ message: "Profesor no encontrado" });
         }
-        res.status(200).json(curso.estudiantes); // Enviar la lista de estudiantes
+
+        // Actualizar la materia para asignarle el ID del profesor
+        const materia = await Materia.findByIdAndUpdate(
+            id,
+            { $addToSet: { profesores: profesorId } }, // Usar $addToSet para evitar duplicados
+            //{ profesores: profesorId },
+            { new: true }
+        ).populate('profesores'); //Datos completos del profesor asignado
+
+        if (!materia) {
+            return res.status(404).json({ message: "Materia no encontrada" });
+        }
+
+        return res.status(200).json({ message: "Profesor asignado a la materia", materia });
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al obtener los estudiantes del curso', error });
+        return res.status(500).json({ message: error.message });
     }
 };
-*/
+
 module.exports = {
     getMaterias,
     getMateria,
     postMateria,
     updateMateria,
-    deleteMateria
+    deleteMateria, 
+    assignProfesorToMateria
 };
