@@ -6,7 +6,7 @@ const router = express.Router(); //Instancia de express
 //const { getEstudiantes, getEstudiante, 
     //postEstudiante, updateEstudiante, deleteEstudiante } = require('../controllers/estudiantesFake'); //Cargar controladores
 const { getEstudiantes, getEstudiante, 
-        postEstudiante, updateEstudiante, deleteEstudiante } = require('../controllers/estudiantes'); //Cargar controladores
+        postEstudiante, updateEstudiante, deleteEstudiante, obtenerEstudianteConCursoYMaterias } = require('../controllers/estudiantes'); //Cargar controladores
 //const {getTodos, getById, deleteById, updateById, add} = require('../controllers/ingredientes');
 
 //const {validarJwt, validarRol} = require('../middlewares/validations.js');//Cargar middlewares
@@ -22,5 +22,7 @@ router.put('/:id', updateEstudiante); //Ruta PUBLICA para actualizar un estudian
 
 router.delete('/:id', deleteEstudiante); //Ruta para eliminar un estudiante por su id --> USAR PARA PRUEBAS
 //router.delete('/:id', [validarJwt, validarRol], deleteEstudiante); //Ruta CON VALIDACIÓN para eliminar un estudiante por su id
+
+router.get('/:id/curso-materias', obtenerEstudianteConCursoYMaterias); //Ruta para obtener un estudiante con sus cursos y materias --> USAR PARA PRUEBAS
 
 module.exports = router;

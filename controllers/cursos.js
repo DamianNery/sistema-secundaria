@@ -1,5 +1,6 @@
 //CONTROLADOR
 const Curso = require('../schemas/Curso.js');
+const Estudiante = require('../schemas/Estudiante.js');
 const Materia = require('../schemas/Materia.js');
 
 //Obtener todos los cursos
@@ -103,6 +104,37 @@ const getEstudiantesEnCurso = async (req, res) => {
     }
 };
 
+//Agregar un estudiante a un curso
+const addEstudianteToCurso = async (req, res) => {
+    const { id } = req.params; // ID del curso
+    const { estudianteId } = req.body; // ID del estudiante que se va a agregar
+
+    try {
+        // Verificar que la estudiante existe
+        const estudiante = await Estudiante.findById(estudianteId);
+        if (!estudiante) {
+            return res.status(404).json({ message: "Estudiante no encontrado" });
+        }
+
+        // Encontrar el curso y agregar el ID del estudiante
+        const curso = await Curso.findById(id);
+        if (!curso) {
+            return res.status(404).json({ message: "Curso no encontrado" });
+        }
+
+        // Evitar duplicados
+        if (!curso.estudiantes.includes(estudianteId)) {
+            curso.estudiantes.push(estudianteId);
+            await curso.save();
+            return res.status(200).json({ message: "Estudiante añadido al curso", curso });
+        } else {
+            return res.status(400).json({ message: "El estudiante ya está asociado a este curso" });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+
 //Agregar una materia a un curso
 const addMateriaToCurso = async (req, res) => {
     const { id } = req.params; // ID del curso
@@ -141,5 +173,6 @@ module.exports = {
     updateCurso,
     deleteCurso,
     getEstudiantesEnCurso,
+    addEstudianteToCurso,
     addMateriaToCurso
 };
