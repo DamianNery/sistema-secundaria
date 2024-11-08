@@ -2,7 +2,7 @@
 const mongoose = require("mongoose"); //Importar mongoose
 
 const cursoSchema = new mongoose.Schema({ //Crear esquema
-    año: {
+    anio: {
         type: Number,
         required: true,
     },
