@@ -2,73 +2,75 @@
 const Materia = require('../schemas/Materia.js');
 const Profesor = require('../schemas/Profesor.js');
 
-//Obtener todos las materias
+//OK Obtener todos las materias
 const getMaterias = async (req, res) => {
     try {
-        const materias = await Materia.find();
+        const materias = await Materia.find(); //Espera que se resuelva la promesa
         console.log(materias);
-        res.status(200).json(materias); //(200): OK
+        res.status(200).json(materias); //(200): Petición exitosa
     } catch (error) {
         console.log(error);
-        res.status(500).json({ mensaje: 'Error al obtener las materias', error }); //(500): Internal Server Error
+        res.status(500).json({ mensaje: 'Error al obtener materias', error }); //(500): Internal Server Error
     }
 };
 
-//Obtener un curso específico
+//OK Obtener una materia específica
 const getMateria = async (req, res) => {
     const { id } = req.params;
     try {
-        const materia = await Materia.findById(id);
+        const materia = await Materia.findById(id); //Espera a que se resuelva la promesa
         if (materia) {
-            res.status(200).json(materia);
+            res.status(200).json(materia); //(200): Petición exitosa
         } else {
             res.status(404).json({ 
-                mensaje: 'Materia no encontrada',//(404): Not Found (Materia no encontrada)
+                mensaje: 'Materia no encontrada',
                 id,
                 encontrado: false
-            });
+            }); //(404): Not Found (Materia no encontrada)
         }
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al obtener la materia', error }); //(500): Internal Server Error
+        res.status(500).json({ mensaje: 'Error al obtener materia', error }); //(500): Internal Server Error
     }
 };
 
-// Crear un curso
+//OK Crear una materia
 const postMateria = async (req, res) => {
-    const { año, división, código } = req.body;
+    const { nombre, descripcion, codigo } = req.body;
     try {
-        const nuevoMateria = new Materia({ año, división, código });
+        const nuevoMateria = new Materia({ nombre, descripcion, codigo });
         await nuevoMateria.save();
-        res.status(201).json(nuevoMateria); //(201): Created
+        res.status(201).json(nuevoMateria); //(201): Created (Nuevo recurso creado)
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al crear la materia', error }); //(500): Internal Server Error
     }
 };
 
-// Actualizar un curso por ID
+//OK Actualizar una materia por ID
 const updateMateria = async (req, res) => {
     const { id } = req.params;
-    const { año, division, código } = req.body;
+    const { nombre, descripcion, codigo } = req.body;
     try {
         const materiaActualizada = await Materia.findByIdAndUpdate(
             id,
-            { año, division, código },
-            { new: true, runValidators: true } // `new: true` devuelve el documento actualizado
+            { nombre, descripcion, codigo },
+            { new: true, runValidators: true } 
+            // "new: true" --> devuelve documento actualizado
+            // "runValidators: true" --> datos actualizados cumplan con validación de schema
         );
         if (materiaActualizada) {
-            res.status(200).json(materiaActualizada); //(200): OK
+            res.status(200).json(materiaActualizada); //(200): Petición exitosa
         } else {
-            res.status(404).json({ //(404): Not Found (Materia no encontrada)
-                mensaje: 'Materia no encontrada',
+            res.status(404).json({
+                mensaje: "Materia no encontrada",
                 id
-            });
+            }); //(404): Not Found (Materia no encontrada)
         }
     } catch (error) {
-        res.status(500).json({ error: 'Error al actualizar la materia' }); //(500): Internal Server Error
+        res.status(500).json({ error: "Error al actualizar materia" }); //(500): Internal Server Error
     }
 };
 
-// Eliminar un curso
+//OK Eliminar una materia
 const deleteMateria = async (req, res) => {
     const { id } = req.params;
     try {
@@ -79,10 +81,10 @@ const deleteMateria = async (req, res) => {
                 id 
         });
         } else {
-            res.status(404).json({ //(404): Not Found (Materia no encontrada)
+            res.status(404).json({ 
                 mensaje: 'Materia no encontrada',
                 id
-            }); 
+            }); //(404): Not Found (Materia no encontrada)
         }
     } catch (error) {
         res.status(500).json({ mensaje: 'Error al eliminar la materia', error }); //(500): Internal Server Error
@@ -91,31 +93,38 @@ const deleteMateria = async (req, res) => {
 
 // Asignar un profesor a una materia
 const assignProfesorToMateria = async (req, res) => {
-    const { id } = req.params; // ID de la materia
-    const { profesorId } = req.body; // ID del profesor a asignar
+    const { id } = req.params; // ID del curso
+    const { profesorId } = req.body; // ID del estudiante a agregar
 
     try {
-        // Verificar que el profesor existe
-        const profesor = await Profesor.findById(profesorId);
-        if (!profesor) {
-            return res.status(404).json({ message: "Profesor no encontrado" });
+        const profesor = await Profesor.findById(profesorId); //Espera a que se resuelva la promesa
+        if (profesor) {
+            const materia = await Materia.findById(id); //Espera a que se resuelva la promesa
+            if (materia) {
+                // Evitar duplicados en el materia
+                if (!materia.profesores.includes(profesorId)) {
+                    materia.profesores.push(profesorId);
+                    await materia.save();
+
+                    profesor.materias = id;
+                    //profesor.materia.push(id);
+                    await profesor.save();
+                    
+                    res.status(200).json({ message: "Profesor añadido a la materia", materia }); //(200): Petición exitosa
+                } else {
+                    res.status(400).json({ message: "Profesor ya está asociado a esta materia" }); //(400): Bad Request - El servidor no pudo interpretar la solicitud dada una sintaxis inválida.
+                }
+            }
+            else {
+                res.status(404).json({ message: "Materia no encontrada" }); //(404): Not Found
+            }
         }
-
-        // Actualizar la materia para asignarle el ID del profesor
-        const materia = await Materia.findByIdAndUpdate(
-            id,
-            { $addToSet: { profesores: profesorId } }, // Usar $addToSet para evitar duplicados
-            //{ profesores: profesorId },
-            { new: true }
-        ).populate('profesores'); //Datos completos del profesor asignado
-
-        if (!materia) {
-            return res.status(404).json({ message: "Materia no encontrada" });
-        }
-
-        return res.status(200).json({ message: "Profesor asignado a la materia", materia });
+        else {
+            res.status(404).json({ message: "Profesor no encontrado" }); //(404): Not Found
+        }        
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        //res.status(500).json({ message: "Error al agregar estudiante al curso" }); //(500): Internal Server Error
+        res.status(500).json({ message: error.message }); //(500): Internal Server Error
     }
 };
 
