@@ -34,9 +34,9 @@ const getEstudiante = async (req, res) => {
 
 //OK Agregar un nuevo estudiante
 const postEstudiante = async (req, res) => {
-  const { nombre, apellido, dni } = req.body;
+  const { nombre, apellido, dni, password, rol } = req.body;
   try {
-    const nuevoEstudiante = new Estudiante({ nombre, apellido, dni });
+    const nuevoEstudiante = new Estudiante({ nombre, apellido, dni, password, rol });
     await nuevoEstudiante.save(); 
     res.status(201).json(nuevoEstudiante); //(201): Created (Nuevo recurso creado)
   } catch (error) {
@@ -95,21 +95,27 @@ const deleteEstudiante = async (req, res) => {
 const obtenerEstudianteConCursoYMaterias = async (req, res) => {
   const { id } = req.params;
   try {
-    const estudiante = await Estudiante.findById(id) // Espera a que se resuelva la promesa
-      .populate({
-        path: "curso", // Se llena la información del curso
-        populate: {
-          path: "materias", // Se llenan las materias del curso
+    // Verificar si el ID del estudiante en la URL es el mismo que el ID del usuario logueado
+    if (req.usuario.id == id) {
+      const estudiante = await Estudiante.findById(id) // Espera a que se resuelva la promesa
+        .populate({
+          path: "curso", // Se llena la información del curso
           populate: {
-            path: "profesores", // Se llenan los profesores de cada materia
+            path: "materias", // Se llenan las materias del curso
+            populate: {
+              path: "profesores", // Se llenan los profesores de cada materia
+            },
           },
-        },
-      }); // Espera a que se resuelva la promesa
+        }); // Espera a que se resuelva la promesa
 
-    if (estudiante) {
-      res.status(200).json(estudiante); // (200): Petifción exitosa
-    } else {
-      res.status(404).json({ message: "Estudiante no encontrado" }); //(404): Not Found (Estudiante no encontrado)
+      if (estudiante) {
+        res.status(200).json(estudiante); // (200): Petifción exitosa
+      } else {
+        res.status(404).json({ message: "Estudiante no encontrado" }); //(404): Not Found (Estudiante no encontrado)
+      }
+    }
+    else {
+      res.status(403).json({ message: "No autorizado para ver estos datos" }); // (403): Forbidden - Sin permisos para acceder al contenido
     }
   } catch (error) {
     res.status(500).json({ message: "Error al obtener datos del estudiante" }); //(500): Internal Server Error
