@@ -29,7 +29,7 @@ class Server {
         this.app.use("/api/cursos",require('./routes/cursos'));
         this.app.use("/api/materias",require('./routes/materias'));
         this.app.use("/api/profesores",require('./routes/profesores')); 
-        //this.app.use("/api", require('./routes/auth'));
+        this.app.use("/api/", require('./routes/auth'));
     }
 
     async conectarABD() {
