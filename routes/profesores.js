@@ -7,10 +7,27 @@ const { getProfesores, getProfesor,
     postProfesor, updateProfesor, deleteProfesor } = require('../controllers/profesores'); //Cargar controladores
 //const {getTodos, getById, deleteById, updateById, add} = require('../controllers/ingredientes');
 
-router.get('/', getProfesores); //Ruta para obtener todos los Profesores
-router.get('/:id', getProfesor); //Ruta para obtener un Profesor por su id
-router.post('/', postProfesor); //Ruta para crear un Profesor
-router.put('/:id', updateProfesor); //Ruta para actualizar un Profesor por su id
-router.delete('/:id', deleteProfesor); //Ruta para eliminar un Profesor por su id
+// Importar middlewares de validación
+const { validarJwt, validarRolAdmin } = require('../middlewares/validations.js');
+
+//getTodos --> Obtener todos los profesores
+router.get('/', getProfesores); //PÚBLICA
+//router.get('/', validarJwt, getProfesores); //VALIDACIÓN
+
+//get>ById --> Obtener un profesor por su id
+//router.get('/:id', getProfesor); //PÚBLICA
+router.get('/:id', validarJwt, getProfesor); //VALIDACIÓN
+
+//add --> Crear un profesor
+//router.post('/', postProfesor); //PÚBLICA
+router.post('/', [validarJwt, validarRolAdmin], postProfesor); //VALIDACIÓN
+
+//updateById --> Actualizar un profesor por su id
+//router.put('/:id', updateProfesor); //PÚBLICA
+router.put('/:id', validarJwt, updateProfesor); //VALIDACIÓN
+
+//Ruta para eliminar un profesor por su id
+//router.delete('/:id', deleteProfesor); //PÚBLICA
+router.delete('/:id', [validarJwt, validarRolAdmin], deleteProfesor); //VALIDACIÓN
 
 module.exports = router;

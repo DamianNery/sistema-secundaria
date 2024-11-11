@@ -3,27 +3,33 @@ const express = require('express'); //Importar express
 
 const router = express.Router(); //Instancia de express
 
-const { getEstudiantes, getEstudiante, 
-        postEstudiante, updateEstudiante, deleteEstudiante, obtenerEstudianteConCursoYMaterias } = require('../controllers/estudiantes'); //Cargar controladores
-//const {getTodos, getById, deleteById, updateById, add} = require('../controllers/ingredientes');
+const { getEstudiantes, getEstudiante, postEstudiante, updateEstudiante, deleteEstudiante, obtenerEstudianteConCursoYMaterias } = require('../controllers/estudiantes'); //Cargar controladores
 
 // Importar middlewares de validación
 const { validarJwt, validarRolAdmin } = require('../middlewares/validations.js');
-//const {validarJwt, validarRol} = require('../middlewares/validations.js');//Cargar middlewares
 
-router.get('/', getEstudiantes); //Ruta PUBLICA --> Obtener todos los estudiantes 
+//getTodos --> Obtener todos los estudiantes
+router.get('/', getEstudiantes); //PÚBLICA  
+//router.get('/:id', validarJwt, getEstudiantes); //VALIDACIÓN
 
-router.get('/:id', getEstudiante); //Ruta PUBLICA --> Obtener estudiante por su id --> USAR PARA PRUEBAS
-//router.get('/:id', [validarJwt], getEstudiante); //Ruta CON VALIDACIÓN para obtener un estudiante por su id
+//get>ById --> Obtener estudiante por su id
+//router.get('/:id', getEstudiante); //PÚBLICA
+router.get('/:id', validarJwt, getEstudiante); //VALIDACIÓN
 
-router.post('/', postEstudiante); //Ruta PUBLICA --> Crear un estudiante
+//add --> Crear un estudiante
+//router.post('/', postEstudiante); //PÚBLICA
+router.post('/', [validarJwt, validarRolAdmin], postEstudiante); //VALIDACIÓN
 
-router.put('/:id', updateEstudiante); //Ruta PUBLICA --> Actualizar estudiante por su id
+//updateById --> Actualizar estudiante por su id
+//router.put('/:id', updateEstudiante); //PÚBLICA
+router.put('/:id', validarJwt, updateEstudiante); //VALIDACIÓN
 
-//router.delete('/:id', deleteEstudiante); //Ruta para eliminar un estudiante por su id --> USAR PARA PRUEBAS
-router.delete('/:id', [validarJwt, validarRolAdmin], deleteEstudiante); //Ruta CON VALIDACIÓN --> Eliminar estudiante por su id
+//deleteById --> Eliminar estudiante por su id
+//router.delete('/:id', deleteEstudiante); //PÚBLICA 
+router.delete('/:id', [validarJwt, validarRolAdmin], deleteEstudiante); //VALIDACIÓN
 
-//router.get('/:id/curso-materias', obtenerEstudianteConCursoYMaterias); //Ruta para obtener un estudiante con sus cursos y materias --> USAR PARA PRUEBAS
-router.get('/:id/curso-materias', validarJwt, obtenerEstudianteConCursoYMaterias); //Ruta CON VALIDACIÓN --> Obtener estudiante con sus cursos y materias --> USAR PARA PRUEBAS
+//Obtener un estudiante con sus cursos y materias
+//router.get('/:id/curso-materias', obtenerEstudianteConCursoYMaterias); //PÚBLICA
+router.get('/:id/curso-materias', validarJwt, obtenerEstudianteConCursoYMaterias); //VALIDACIÓN
 
 module.exports = router;
